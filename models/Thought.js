@@ -15,11 +15,12 @@ const reactionSchema = new Schema(
       type: String,
       required: true,
     },
+    createdAt: {
+      type: Date,
+      default: () => Date.now(),
+    },
   },
   {
-    timestamps: {
-      currentTime: () => Date.now().toLocaleString("en-US"),
-    },
     toJSON: {
       virtuals: true,
     },
@@ -38,12 +39,17 @@ const thoughtSchema = new Schema(
       type: String,
       required: true,
     },
+    userId: {
+      type: Types.ObjectId,
+      ref: "User",
+    },
+    createdAt: {
+      type: Date,
+      default: () => Date.now(),
+    },
     reactions: [reactionSchema],
   },
   {
-    timestamps: {
-      currentTime: () => Date.now().toLocaleString("en-US"),
-    },
     toJSON: {
       virtuals: true,
     },

@@ -30,6 +30,7 @@ router.post("/", async (req, res) => {
       const createdThought = await Thought.create({
         thoughtText: req.body.thoughtText,
         username: req.body.username,
+        userId: selectedUser._id,
       });
 
       const usernameThought = await User.findOneAndUpdate(
@@ -44,10 +45,56 @@ router.post("/", async (req, res) => {
         }
       );
 
-      res
-        .status(200)
-        .json({ message: "Thought created!", createdThought, usernameThought });
+      res.status(200).json({ message: "Thought created!", createdThought });
     } else res.status(400).json({ message: "Username invalid!" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+});
+
+router.put("/:thoughtId", async (req, res) => {
+  try {
+    const updatedThought = await Thought.findByIdAndUpdate(
+      req.params.thoughtId,
+      {
+        thoughtText: req.body.thoughtText,
+      },
+      {
+        returnOriginal: false,
+      }
+    );
+
+    if (updatedThought) {
+      res.status(200).json({ message: "Thought Updated!", updatedThought });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+});
+
+router.delete("/:thoughtId", async (req, res) => {
+  try {
+    const deletedThought = await Thought.findByIdAndDelete(
+      req.params.thoughtId,
+      {
+        returnOriginal: false,
+      }
+    );
+    const deletedThoughtArray = await User.findByIdAndUpdate(
+      deletedThought.userId,
+      { $pull: { thoughts: req.params.thoughtId } },
+      { returnOriginal: false }
+    );
+
+    if (deletedThought && deletedThoughtArray) {
+      res.status(200).json({
+        message: "Thought Deleted!",
+        deletedThought,
+        deletedThoughtArray,
+      });
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json(error);

@@ -63,8 +63,9 @@ router.delete("/:userId", async (req, res) => {
     const deletedUser = await User.findByIdAndDelete(req.params.userId, {
       returnOriginal: false,
     });
+    const deletedThoughts = await Thought.deleteMany({ userId: req.params.userId })
 
-    if (deletedUser) {
+    if (deletedUser && deletedThoughts) {
       res.status(200).json({ message: "User Deleted!", deletedUser });
     } else {
       res.status(404).json({ message: "404: userID not found!" });
