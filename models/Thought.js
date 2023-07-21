@@ -20,6 +20,9 @@ const reactionSchema = new Schema(
     timestamps: {
       currentTime: () => Date.now().toLocaleString("en-US"),
     },
+    toJSON: {
+      virtuals: true,
+    },
   }
 );
 
@@ -41,9 +44,16 @@ const thoughtSchema = new Schema(
     timestamps: {
       currentTime: () => Date.now().toLocaleString("en-US"),
     },
+    toJSON: {
+      virtuals: true,
+    },
   }
 );
 
-const Thought = model('Thought', thoughtSchema);
+thoughtSchema.virtual("reactionCount").get(function () {
+  return this.reactions.length;
+});
+
+const Thought = model("Thought", thoughtSchema);
 
 module.exports = { Thought, thoughtSchema };
