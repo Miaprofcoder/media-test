@@ -6,15 +6,6 @@
 - RESTful Api is capable of performing CRUD functions within the Social Media Database
 - This web application helped me understand Non-relational Databases, along with some basic routings and functions within a social-media application from the back-end
 
-## Table of Contents (Optional)
-
-If your README is long, add a table of contents to make it easy for users to find what they need.
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [Credits](#credits)
-- [License](#license)
-
 ## Installation
 
 - **Ensure you have NodeJS and MongoDB Compass installed onto your computer.**
@@ -27,6 +18,8 @@ If your README is long, add a table of contents to make it easy for users to fin
 ## Usage
 
 - Below is a video that show the API's different functions. *API Requests made possible by Insomnia*
+
+https://github.com/epicasino/social-media-api/assets/99784684/dcbab3d2-2e50-4972-ad47-c6fe33acc141
 
 ## License
 
