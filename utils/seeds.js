@@ -60,6 +60,8 @@ connection.once("open", async () => {
     users.push({
       username,
       email,
+      thoughts: [],
+      friends: [],
     });
   }
 

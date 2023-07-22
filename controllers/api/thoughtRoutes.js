@@ -101,4 +101,55 @@ router.delete("/:thoughtId", async (req, res) => {
   }
 });
 
+router.post("/:thoughtId/reactions", async (req, res) => {
+  try {
+    const selectedThought = await Thought.findByIdAndUpdate(
+      req.params.thoughtId,
+      {
+        $push: {
+          reactions: {
+            reactionBody: req.body.reactionBody,
+            username: req.body.username,
+          },
+        },
+      },
+      { returnOriginal: false }
+    );
+
+    if (selectedThought) {
+      res.status(200).json({ message: "Reaction created!", selectedThought });
+    } else {
+      res.status(400).json({ message: "400: Forbidden Request" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+});
+
+router.delete("/:thoughtId/reactions/:reactionId", async (req, res) => {
+  try {
+    const deletedThought = await Thought.findByIdAndUpdate(
+      req.params.thoughtId,
+      {
+        $pull: {
+          reactions: {
+            reactionId: req.params.reactionId,
+          },
+        },
+      },
+      { returnOriginal: false }
+    );
+
+    if (deletedThought) {
+      res.status(200).json({ message: "Reaction Deleted!", deletedThought });
+    } else {
+      res.status(400).json({ message: "400: Forbidden Request" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+});
+
 module.exports = router;
